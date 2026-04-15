@@ -68,6 +68,7 @@
         .form-section input[type="email"],
         .form-section input[type="tel"],
         .form-section input[type="date"],
+        .form-section input[type="password"],
         .form-section select {
             width: calc(100% - 22px);
             padding: 10px;
@@ -110,7 +111,8 @@
             color: white;
         }
 
-        .action-buttons button {
+        .action-buttons button,
+        button.action-buttons {
             background-color: #ffc107;
             color: white;
             border: none;
@@ -120,15 +122,18 @@
             border-radius: 3px;
         }
 
-        .action-buttons button:hover {
+        .action-buttons button:hover,
+        button.action-buttons:hover {
             background-color: #e0a800;
         }
 
-        .action-buttons button.delete {
+        .action-buttons button.delete,
+        button.action-buttons.delete {
             background-color: #dc3545;
         }
 
-        .action-buttons button.delete:hover {
+        .action-buttons button.delete:hover,
+        button.action-buttons.delete:hover {
             background-color: #c82333;
         }
 
@@ -171,6 +176,20 @@
         .error-message {
             color: red;
             margin-top: 10px;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
         }
     </style>
 </head>
@@ -238,7 +257,7 @@
                 <input type="number" id="supervisor-commission" step="0.01">
                 <label for="supervisor-contact">Contato:</label>
                 <input type="text" id="supervisor-contact">
-                <button id="save-supervisor-btn">Salvar Supervisor</button>
+                <button type="button" id="save-supervisor-btn">Salvar Supervisor</button>
             </div>
             <div class="table-section">
                 <h2>Lista de Supervisores</h2>
@@ -251,9 +270,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="supervisors-table-body">
-                        <!-- Supervisores serão carregados aqui -->
-                    </tbody>
+                    <tbody id="supervisors-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -266,14 +283,12 @@
                 <label for="seller-name">Nome:</label>
                 <input type="text" id="seller-name">
                 <label for="seller-supervisor">Supervisor:</label>
-                <select id="seller-supervisor">
-                    <!-- Supervisores serão carregados aqui -->
-                </select>
+                <select id="seller-supervisor"></select>
                 <label for="seller-commission">Comissão (%):</label>
                 <input type="number" id="seller-commission" step="0.01">
                 <label for="seller-contact">Contato:</label>
                 <input type="text" id="seller-contact">
-                <button id="save-seller-btn">Salvar Vendedor</button>
+                <button type="button" id="save-seller-btn">Salvar Vendedor</button>
             </div>
             <div class="table-section">
                 <h2>Lista de Vendedores</h2>
@@ -287,9 +302,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="sellers-table-body">
-                        <!-- Vendedores serão carregados aqui -->
-                    </tbody>
+                    <tbody id="sellers-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -307,7 +320,7 @@
                 <input type="email" id="client-email">
                 <label for="client-phone">Telefone:</label>
                 <input type="tel" id="client-phone">
-                <button id="save-client-btn">Salvar Cliente</button>
+                <button type="button" id="save-client-btn">Salvar Cliente</button>
             </div>
             <div class="table-section">
                 <h2>Lista de Clientes</h2>
@@ -321,9 +334,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="clients-table-body">
-                        <!-- Clientes serão carregados aqui -->
-                    </tbody>
+                    <tbody id="clients-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -337,7 +348,7 @@
                 <input type="text" id="course-name">
                 <label for="course-value">Valor:</label>
                 <input type="number" id="course-value" step="0.01">
-                <button id="save-course-btn">Salvar Curso</button>
+                <button type="button" id="save-course-btn">Salvar Curso</button>
             </div>
             <div class="table-section">
                 <h2>Lista de Cursos</h2>
@@ -349,9 +360,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="courses-table-body">
-                        <!-- Cursos serão carregados aqui -->
-                    </tbody>
+                    <tbody id="courses-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -365,26 +374,20 @@
                 <input type="text" id="sale-contract">
                 <label for="sale-client">Cliente:</label>
                 <div style="display: flex; gap: 10px;">
-                    <select id="sale-client" style="flex: 1;">
-                        <!-- Clientes serão carregados aqui -->
-                    </select>
+                    <select id="sale-client" style="flex: 1;"></select>
                     <button type="button" id="new-client-btn" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-size: 14px; white-space: nowrap;">+ Novo Cliente</button>
                 </div>
                 <label for="sale-seller">Vendedor:</label>
-                <select id="sale-seller">
-                    <!-- Vendedores serão carregados aqui -->
-                </select>
+                <select id="sale-seller"></select>
                 <label for="sale-course">Curso:</label>
-                <select id="sale-course">
-                    <!-- Cursos serão carregados aqui -->
-                </select>
+                <select id="sale-course"></select>
                 <label for="sale-value">Valor:</label>
                 <input type="number" id="sale-value" step="0.01">
                 <label for="sale-gift">Brinde:</label>
                 <input type="number" id="sale-gift" step="0.01" value="0">
                 <label for="sale-date">Data:</label>
                 <input type="date" id="sale-date">
-                <button id="save-sale-btn">Registrar Venda</button>
+                <button type="button" id="save-sale-btn">Registrar Venda</button>
             </div>
             <div class="table-section">
                 <h2>Lista de Vendas</h2>
@@ -401,9 +404,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="sales-table-body">
-                        <!-- Vendas serão carregadas aqui -->
-                    </tbody>
+                    <tbody id="sales-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -414,16 +415,14 @@
                 <h2>Registrar Cancelamento</h2>
                 <input type="hidden" id="cancellation-id">
                 <label for="cancellation-contract">Contrato da Venda:</label>
-                <select id="cancellation-contract">
-                    <!-- Vendas serão carregadas aqui -->
-                </select>
+                <select id="cancellation-contract"></select>
                 <label for="cancellation-reason">Motivo:</label>
                 <input type="text" id="cancellation-reason">
                 <label for="cancellation-date">Data do Cancelamento:</label>
                 <input type="date" id="cancellation-date">
                 <label for="cancellation-chargeback-date">Data de Cobrança do Estorno:</label>
                 <input type="date" id="cancellation-chargeback-date">
-                <button id="save-cancellation-btn">Registrar Cancelamento</button>
+                <button type="button" id="save-cancellation-btn">Registrar Cancelamento</button>
             </div>
             <div class="table-section">
                 <h2>Lista de Cancelamentos</h2>
@@ -440,9 +439,7 @@
                             <th>Data Cobrança Estorno</th>
                         </tr>
                     </thead>
-                    <tbody id="cancellations-table-body">
-                        <!-- Cancelamentos serão carregados aqui -->
-                    </tbody>
+                    <tbody id="cancellations-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -452,7 +449,7 @@
             <div class="form-section">
                 <label for="search-contract">Contrato:</label>
                 <input type="text" id="search-contract">
-                <button id="search-sale-btn">Pesquisar</button>
+                <button type="button" id="search-sale-btn">Pesquisar</button>
             </div>
             <div class="table-section">
                 <h2>Resultado da Pesquisa</h2>
@@ -468,9 +465,7 @@
                             <th>Data</th>
                         </tr>
                     </thead>
-                    <tbody id="search-results-table-body">
-                        <!-- Resultados da pesquisa serão carregados aqui -->
-                    </tbody>
+                    <tbody id="search-results-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -494,14 +489,12 @@
                 <label for="report-supervisor">Filtrar por Supervisor:</label>
                 <select id="report-supervisor">
                     <option value="">Todos</option>
-                    <!-- Supervisores serão carregados aqui -->
                 </select>
                 <label for="report-seller">Filtrar por Vendedor:</label>
                 <select id="report-seller">
                     <option value="">Todos</option>
-                    <!-- Vendedores serão carregados aqui -->
                 </select>
-                <button id="generate-report-btn">Gerar Relatório</button>
+                <button type="button" id="generate-report-btn">Gerar Relatório</button>
             </div>
             <div class="table-section">
                 <h2>Resultados do Relatório</h2>
@@ -520,9 +513,7 @@
                             <th>Valor Líquido</th>
                         </tr>
                     </thead>
-                    <tbody id="reports-table-body">
-                        <!-- Relatórios serão carregados aqui -->
-                    </tbody>
+                    <tbody id="reports-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -532,38 +523,37 @@
             <div class="form-section">
                 <h3>Fazer Backup</h3>
                 <p>Exporte todos os seus dados para um arquivo JSON.</p>
-                <button id="export-data-btn">Exportar Dados</button>
+                <button type="button" id="export-data-btn">Exportar Dados</button>
             </div>
             <div class="form-section">
                 <h3>Restaurar Backup</h3>
                 <p>Importe dados de um arquivo JSON. Isso substituirá os dados atuais.</p>
                 <input type="file" id="import-file" accept=".json">
-                <button id="import-data-btn">Restaurar Backup</button>
+                <button type="button" id="import-data-btn">Restaurar Backup</button>
             </div>
         </div>
-        </div>
+    </div>
 
-        <!-- Modal para Novo Cliente -->
-        <div id="new-client-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000; justify-content: center; align-items: center;">
-            <div style="background-color: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 500px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);">
-                <h2 style="color: #0056b3; margin-top: 0;">Cadastrar Novo Cliente</h2>
-                <label for="new-client-name" style="display: block; margin-bottom: 5px; font-weight: bold;">Nome:</label>
-                <input type="text" id="new-client-name" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
-                <label for="new-client-cpf" style="display: block; margin-bottom: 5px; font-weight: bold;">CPF:</label>
-                <input type="text" id="new-client-cpf" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
-                <label for="new-client-email" style="display: block; margin-bottom: 5px; font-weight: bold;">Email:</label>
-                <input type="email" id="new-client-email" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
-                <label for="new-client-phone" style="display: block; margin-bottom: 5px; font-weight: bold;">Telefone:</label>
-                <input type="tel" id="new-client-phone" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
-                <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                    <button id="cancel-new-client-btn" style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-size: 14px;">Cancelar</button>
-                    <button id="save-new-client-btn" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-size: 14px;">Salvar Cliente</button>
-                </div>
+    <div id="new-client-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background-color: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 500px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);">
+            <h2 style="color: #0056b3; margin-top: 0;">Cadastrar Novo Cliente</h2>
+            <label for="new-client-name" style="display: block; margin-bottom: 5px; font-weight: bold;">Nome:</label>
+            <input type="text" id="new-client-name" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+            <label for="new-client-cpf" style="display: block; margin-bottom: 5px; font-weight: bold;">CPF:</label>
+            <input type="text" id="new-client-cpf" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+            <label for="new-client-email" style="display: block; margin-bottom: 5px; font-weight: bold;">Email:</label>
+            <input type="email" id="new-client-email" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+            <label for="new-client-phone" style="display: block; margin-bottom: 5px; font-weight: bold;">Telefone:</label>
+            <input type="tel" id="new-client-phone" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button type="button" id="cancel-new-client-btn" style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-size: 14px;">Cancelar</button>
+                <button type="button" id="save-new-client-btn" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-size: 14px;">Salvar Cliente</button>
             </div>
         </div>
+    </div>
 
     <script>
-        const API_URL = ''; // Usa a origem atual para a API
+        const API_URL = '';
         const passwordInput = document.getElementById('password-input');
         const loginButton = document.getElementById('login-button');
         const loginError = document.getElementById('login-error');
@@ -572,55 +562,61 @@
         const logoutBtn = document.getElementById('logout-btn');
 
         const sections = {
-            'dashboard': document.getElementById('dashboard-section'),
-            'supervisors': document.getElementById('supervisors-section'),
-            'sellers': document.getElementById('sellers-section'),
-            'clients': document.getElementById('clients-section'),
-            'courses': document.getElementById('courses-section'),
-            'sales': document.getElementById('sales-section'),
-            'cancellations': document.getElementById('cancellations-section'),
-            'search': document.getElementById('search-section'),
-            'reports': document.getElementById('reports-section'),
-            'backup': document.getElementById('backup-section')
+            dashboard: document.getElementById('dashboard-section'),
+            supervisors: document.getElementById('supervisors-section'),
+            sellers: document.getElementById('sellers-section'),
+            clients: document.getElementById('clients-section'),
+            courses: document.getElementById('courses-section'),
+            sales: document.getElementById('sales-section'),
+            cancellations: document.getElementById('cancellations-section'),
+            search: document.getElementById('search-section'),
+            reports: document.getElementById('reports-section'),
+            backup: document.getElementById('backup-section')
         };
 
         const navButtons = {
-            'dashboard': document.getElementById('dashboard-btn'),
-            'supervisors': document.getElementById('supervisors-btn'),
-            'sellers': document.getElementById('sellers-btn'),
-            'clients': document.getElementById('clients-btn'),
-            'courses': document.getElementById('courses-btn'),
-            'sales': document.getElementById('sales-btn'),
-            'cancellations': document.getElementById('cancellations-btn'),
-            'search': document.getElementById('search-btn'),
-            'reports': document.getElementById('reports-btn'),
-            'backup': document.getElementById('backup-btn')
+            dashboard: document.getElementById('dashboard-btn'),
+            supervisors: document.getElementById('supervisors-btn'),
+            sellers: document.getElementById('sellers-btn'),
+            clients: document.getElementById('clients-btn'),
+            courses: document.getElementById('courses-btn'),
+            sales: document.getElementById('sales-btn'),
+            cancellations: document.getElementById('cancellations-btn'),
+            search: document.getElementById('search-btn'),
+            reports: document.getElementById('reports-btn'),
+            backup: document.getElementById('backup-btn')
         };
 
-        let currentEditId = null;
+        let supervisorEditId = null;
+        let sellerEditId = null;
+        let clientEditId = null;
+        let courseEditId = null;
+        let saleEditId = null;
+        let cancellationEditId = null;
 
-        // --- Autenticação --- //
         loginButton.addEventListener('click', async () => {
-            const password = passwordInput.value;
+            const password = passwordInput.value.trim();
             try {
                 const response = await fetch(`${API_URL}/login`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ password: password })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
                 });
+
+                const result = await response.json();
 
                 if (response.ok) {
                     loginView.classList.add('hidden');
                     mainView.classList.remove('hidden');
                     showSection('dashboard');
-                    loadAllData();
+                    await loadAllData();
                 } else {
+                    loginError.textContent = result.message || 'Senha incorreta.';
                     loginError.classList.remove('hidden');
                 }
             } catch (error) {
                 console.error('Erro ao fazer login:', error);
+                loginError.textContent = 'Erro ao fazer login.';
                 loginError.classList.remove('hidden');
             }
         });
@@ -632,12 +628,10 @@
             loginError.classList.add('hidden');
         });
 
-        // --- Navegação --- //
         function showSection(sectionId) {
-            for (let id in sections) {
-                sections[id].classList.add('hidden');
-            }
+            Object.keys(sections).forEach(id => sections[id].classList.add('hidden'));
             sections[sectionId].classList.remove('hidden');
+
             if (sectionId === 'reports') {
                 loadSupervisorsForReportFilter();
                 loadSellersForReportFilter();
@@ -652,61 +646,68 @@
             }
         }
 
-        for (let id in navButtons) {
+        Object.keys(navButtons).forEach(id => {
             navButtons[id].addEventListener('click', () => showSection(id));
-        }
+        });
 
-        // --- Funções Genéricas de API --- //
         async function fetchData(endpoint) {
             try {
                 const response = await fetch(`${API_URL}${endpoint}`);
+                const contentType = response.headers.get('content-type') || '';
+                const data = contentType.includes('application/json') ? await response.json() : null;
+
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error((data && (data.error || data.message)) || `HTTP ${response.status}`);
                 }
-                return await response.json();
+
+                return data;
             } catch (error) {
                 console.error(`Erro ao carregar dados de ${endpoint}:`, error);
                 return [];
             }
         }
 
-        async function postData(endpoint, data) {
+        async function sendData(endpoint, data, method = 'POST') {
             try {
                 const response = await fetch(`${API_URL}${endpoint}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
+
+                const contentType = response.headers.get('content-type') || '';
+                const result = contentType.includes('application/json') ? await response.json() : null;
+
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error((result && (result.error || result.message)) || `HTTP ${response.status}`);
                 }
-                return await response.json();
+
+                return result;
             } catch (error) {
                 console.error(`Erro ao salvar dados em ${endpoint}:`, error);
-                alert('Erro ao salvar dados. Verifique o console para mais detalhes.');
+                alert(`Erro ao salvar dados: ${error.message}`);
                 return null;
             }
         }
 
         async function deleteData(endpoint) {
             try {
-                const response = await fetch(`${API_URL}${endpoint}`, {
-                    method: 'DELETE'
-                });
+                const response = await fetch(`${API_URL}${endpoint}`, { method: 'DELETE' });
+                const contentType = response.headers.get('content-type') || '';
+                const result = contentType.includes('application/json') ? await response.json() : null;
+
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error((result && (result.error || result.message)) || `HTTP ${response.status}`);
                 }
-                return await response.json();
+
+                return result;
             } catch (error) {
                 console.error(`Erro ao deletar dados de ${endpoint}:`, error);
-                alert('Erro ao deletar dados. Verifique o console para mais detalhes.');
+                alert(`Erro ao deletar dados: ${error.message}`);
                 return null;
             }
         }
 
-        // --- Supervisores --- //
         const supervisorNameInput = document.getElementById('supervisor-name');
         const supervisorCommissionInput = document.getElementById('supervisor-commission');
         const supervisorContactInput = document.getElementById('supervisor-contact');
@@ -714,9 +715,9 @@
         const supervisorsTableBody = document.getElementById('supervisors-table-body');
 
         saveSupervisorBtn.addEventListener('click', async () => {
-            const name = supervisorNameInput.value;
+            const name = supervisorNameInput.value.trim();
             const commission = parseFloat(supervisorCommissionInput.value);
-            const contact = supervisorContactInput.value;
+            const contact = supervisorContactInput.value.trim();
 
             if (!name || isNaN(commission)) {
                 alert('Nome e Comissão são obrigatórios.');
@@ -724,20 +725,19 @@
             }
 
             const data = { name, commission, contact };
-            let result;
-            if (currentEditId) {
-                result = await postData(`/supervisors/${currentEditId}`, data);
-            } else {
-                result = await postData('/supervisors', data);
-            }
+            const endpoint = supervisorEditId ? `/supervisors/${supervisorEditId}` : '/supervisors';
+            const method = supervisorEditId ? 'PUT' : 'POST';
+
+            const result = await sendData(endpoint, data, method);
 
             if (result) {
                 supervisorNameInput.value = '';
                 supervisorCommissionInput.value = '';
                 supervisorContactInput.value = '';
-                currentEditId = null;
-                loadSupervisors();
-                loadSupervisorsForReportFilter();
+                supervisorEditId = null;
+                await loadSupervisors();
+                await loadSupervisorsForSellerForm();
+                await loadSupervisorsForReportFilter();
             }
         });
 
@@ -747,17 +747,19 @@
             supervisors.forEach(supervisor => {
                 const row = supervisorsTableBody.insertRow();
                 row.insertCell().textContent = supervisor.name;
-                row.insertCell().textContent = `${supervisor.commission.toFixed(2)}%`;
-                row.insertCell().textContent = supervisor.contact;
+                row.insertCell().textContent = `${Number(supervisor.commission).toFixed(2)}%`;
+                row.insertCell().textContent = supervisor.contact || '';
                 const actionsCell = row.insertCell();
+
                 const editBtn = document.createElement('button');
                 editBtn.textContent = 'Editar';
-                editBtn.classList.add('action-buttons');
+                editBtn.className = 'action-buttons';
                 editBtn.addEventListener('click', () => editSupervisor(supervisor));
                 actionsCell.appendChild(editBtn);
+
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Excluir';
-                deleteBtn.classList.add('action-buttons', 'delete');
+                deleteBtn.className = 'action-buttons delete';
                 deleteBtn.addEventListener('click', () => deleteSupervisor(supervisor.id));
                 actionsCell.appendChild(deleteBtn);
             });
@@ -765,23 +767,24 @@
         }
 
         function editSupervisor(supervisor) {
-            currentEditId = supervisor.id;
-            supervisorNameInput.value = supervisor.name;
-            supervisorCommissionInput.value = supervisor.commission;
-            supervisorContactInput.value = supervisor.contact;
+            supervisorEditId = supervisor.id;
+            supervisorNameInput.value = supervisor.name || '';
+            supervisorCommissionInput.value = supervisor.commission || '';
+            supervisorContactInput.value = supervisor.contact || '';
+            showSection('supervisors');
         }
 
         async function deleteSupervisor(id) {
             if (confirm('Tem certeza que deseja excluir este supervisor?')) {
                 const result = await deleteData(`/supervisors/${id}`);
                 if (result) {
-                    loadSupervisors();
-                    loadSupervisorsForReportFilter();
+                    await loadSupervisors();
+                    await loadSupervisorsForSellerForm();
+                    await loadSupervisorsForReportFilter();
                 }
             }
         }
 
-        // --- Vendedores --- //
         const sellerNameInput = document.getElementById('seller-name');
         const sellerSupervisorSelect = document.getElementById('seller-supervisor');
         const sellerCommissionInput = document.getElementById('seller-commission');
@@ -790,32 +793,31 @@
         const sellersTableBody = document.getElementById('sellers-table-body');
 
         saveSellerBtn.addEventListener('click', async () => {
-            const name = sellerNameInput.value;
-            const supervisor_id = sellerSupervisorSelect.value;
+            const name = sellerNameInput.value.trim();
+            const supervisor_id = parseInt(sellerSupervisorSelect.value);
             const commission = parseFloat(sellerCommissionInput.value);
-            const contact = sellerContactInput.value;
+            const contact = sellerContactInput.value.trim();
 
-            if (!name || !supervisor_id || isNaN(commission)) {
+            if (!name || Number.isNaN(supervisor_id) || isNaN(commission)) {
                 alert('Nome, Supervisor e Comissão são obrigatórios.');
                 return;
             }
 
-            const data = { name, supervisor_id: parseInt(supervisor_id), commission, contact };
-            let result;
-            if (currentEditId) {
-                result = await postData(`/sellers/${currentEditId}`, data);
-            } else {
-                result = await postData('/sellers', data);
-            }
+            const data = { name, supervisor_id, commission, contact };
+            const endpoint = sellerEditId ? `/sellers/${sellerEditId}` : '/sellers';
+            const method = sellerEditId ? 'PUT' : 'POST';
+
+            const result = await sendData(endpoint, data, method);
 
             if (result) {
                 sellerNameInput.value = '';
                 sellerSupervisorSelect.value = '';
                 sellerCommissionInput.value = '';
                 sellerContactInput.value = '';
-                currentEditId = null;
-                loadSellers();
-                loadSellersForReportFilter();
+                sellerEditId = null;
+                await loadSellers();
+                await loadSellersForSaleForm();
+                await loadSellersForReportFilter();
             }
         });
 
@@ -832,48 +834,54 @@
 
         async function loadSellers() {
             const sellers = await fetchData('/sellers');
+            const supervisors = await fetchData('/supervisors');
+            const supervisorsMap = {};
+            supervisors.forEach(s => { supervisorsMap[s.id] = s.name; });
+
             sellersTableBody.innerHTML = '';
-            for (const seller of sellers) {
+            sellers.forEach(seller => {
                 const row = sellersTableBody.insertRow();
                 row.insertCell().textContent = seller.name;
-                const supervisor = await fetchData(`/supervisors/${seller.supervisor_id}`);
-                row.insertCell().textContent = supervisor ? supervisor.name : 'N/A';
-                row.insertCell().textContent = `${seller.commission.toFixed(2)}%`;
-                row.insertCell().textContent = seller.contact;
+                row.insertCell().textContent = supervisorsMap[seller.supervisor_id] || 'N/A';
+                row.insertCell().textContent = `${Number(seller.commission).toFixed(2)}%`;
+                row.insertCell().textContent = seller.contact || '';
                 const actionsCell = row.insertCell();
+
                 const editBtn = document.createElement('button');
                 editBtn.textContent = 'Editar';
-                editBtn.classList.add('action-buttons');
+                editBtn.className = 'action-buttons';
                 editBtn.addEventListener('click', () => editSeller(seller));
                 actionsCell.appendChild(editBtn);
+
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Excluir';
-                deleteBtn.classList.add('action-buttons', 'delete');
+                deleteBtn.className = 'action-buttons delete';
                 deleteBtn.addEventListener('click', () => deleteSeller(seller.id));
                 actionsCell.appendChild(deleteBtn);
-            }
+            });
             document.getElementById('seller-count').textContent = sellers.length;
         }
 
         function editSeller(seller) {
-            currentEditId = seller.id;
-            sellerNameInput.value = seller.name;
-            sellerSupervisorSelect.value = seller.supervisor_id;
-            sellerCommissionInput.value = seller.commission;
-            sellerContactInput.value = seller.contact;
+            sellerEditId = seller.id;
+            sellerNameInput.value = seller.name || '';
+            sellerSupervisorSelect.value = seller.supervisor_id || '';
+            sellerCommissionInput.value = seller.commission || '';
+            sellerContactInput.value = seller.contact || '';
+            showSection('sellers');
         }
 
         async function deleteSeller(id) {
             if (confirm('Tem certeza que deseja excluir este vendedor?')) {
                 const result = await deleteData(`/sellers/${id}`);
                 if (result) {
-                    loadSellers();
-                    loadSellersForReportFilter();
+                    await loadSellers();
+                    await loadSellersForSaleForm();
+                    await loadSellersForReportFilter();
                 }
             }
         }
 
-        // --- Clientes --- //
         const clientNameInput = document.getElementById('client-name');
         const clientCpfInput = document.getElementById('client-cpf');
         const clientEmailInput = document.getElementById('client-email');
@@ -882,10 +890,10 @@
         const clientsTableBody = document.getElementById('clients-table-body');
 
         saveClientBtn.addEventListener('click', async () => {
-            const name = clientNameInput.value;
-            const cpf = clientCpfInput.value;
-            const email = clientEmailInput.value;
-            const phone = clientPhoneInput.value;
+            const name = clientNameInput.value.trim();
+            const cpf = clientCpfInput.value.trim();
+            const email = clientEmailInput.value.trim();
+            const phone = clientPhoneInput.value.trim();
 
             if (!name) {
                 alert('Nome do Cliente é obrigatório.');
@@ -893,21 +901,19 @@
             }
 
             const data = { name, cpf, email, phone };
-            let result;
-            if (currentEditId) {
-                result = await postData(`/clients/${currentEditId}`, data);
-            } else {
-                result = await postData('/clients', data);
-            }
+            const endpoint = clientEditId ? `/clients/${clientEditId}` : '/clients';
+            const method = clientEditId ? 'PUT' : 'POST';
+
+            const result = await sendData(endpoint, data, method);
 
             if (result) {
                 clientNameInput.value = '';
                 clientCpfInput.value = '';
                 clientEmailInput.value = '';
                 clientPhoneInput.value = '';
-                currentEditId = null;
-                loadClients();
-                loadClientsForSaleForm();
+                clientEditId = null;
+                await loadClients();
+                await loadClientsForSaleForm();
             }
         });
 
@@ -916,19 +922,21 @@
             clientsTableBody.innerHTML = '';
             clients.forEach(client => {
                 const row = clientsTableBody.insertRow();
-                row.insertCell().textContent = client.name;
-                row.insertCell().textContent = client.cpf;
-                row.insertCell().textContent = client.email;
-                row.insertCell().textContent = client.phone;
+                row.insertCell().textContent = client.name || '';
+                row.insertCell().textContent = client.cpf || '';
+                row.insertCell().textContent = client.email || '';
+                row.insertCell().textContent = client.phone || '';
                 const actionsCell = row.insertCell();
+
                 const editBtn = document.createElement('button');
                 editBtn.textContent = 'Editar';
-                editBtn.classList.add('action-buttons');
+                editBtn.className = 'action-buttons';
                 editBtn.addEventListener('click', () => editClient(client));
                 actionsCell.appendChild(editBtn);
+
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Excluir';
-                deleteBtn.classList.add('action-buttons', 'delete');
+                deleteBtn.className = 'action-buttons delete';
                 deleteBtn.addEventListener('click', () => deleteClient(client.id));
                 actionsCell.appendChild(deleteBtn);
             });
@@ -936,31 +944,31 @@
         }
 
         function editClient(client) {
-            currentEditId = client.id;
-            clientNameInput.value = client.name;
-            clientCpfInput.value = client.cpf;
-            clientEmailInput.value = client.email;
-            clientPhoneInput.value = client.phone;
+            clientEditId = client.id;
+            clientNameInput.value = client.name || '';
+            clientCpfInput.value = client.cpf || '';
+            clientEmailInput.value = client.email || '';
+            clientPhoneInput.value = client.phone || '';
+            showSection('clients');
         }
 
         async function deleteClient(id) {
             if (confirm('Tem certeza que deseja excluir este cliente?')) {
                 const result = await deleteData(`/clients/${id}`);
                 if (result) {
-                    loadClients();
-                    loadClientsForSaleForm();
+                    await loadClients();
+                    await loadClientsForSaleForm();
                 }
             }
         }
 
-        // --- Cursos --- //
         const courseNameInput = document.getElementById('course-name');
         const courseValueInput = document.getElementById('course-value');
         const saveCourseBtn = document.getElementById('save-course-btn');
         const coursesTableBody = document.getElementById('courses-table-body');
 
         saveCourseBtn.addEventListener('click', async () => {
-            const name = courseNameInput.value;
+            const name = courseNameInput.value.trim();
             const value = parseFloat(courseValueInput.value);
 
             if (!name || isNaN(value)) {
@@ -969,19 +977,17 @@
             }
 
             const data = { name, value };
-            let result;
-            if (currentEditId) {
-                result = await postData(`/courses/${currentEditId}`, data);
-            } else {
-                result = await postData('/courses', data);
-            }
+            const endpoint = courseEditId ? `/courses/${courseEditId}` : '/courses';
+            const method = courseEditId ? 'PUT' : 'POST';
+
+            const result = await sendData(endpoint, data, method);
 
             if (result) {
                 courseNameInput.value = '';
                 courseValueInput.value = '';
-                currentEditId = null;
-                loadCourses();
-                loadCoursesForSaleForm();
+                courseEditId = null;
+                await loadCourses();
+                await loadCoursesForSaleForm();
             }
         });
 
@@ -990,17 +996,19 @@
             coursesTableBody.innerHTML = '';
             courses.forEach(course => {
                 const row = coursesTableBody.insertRow();
-                row.insertCell().textContent = course.name;
-                row.insertCell().textContent = `R$ ${course.value.toFixed(2)}`;
+                row.insertCell().textContent = course.name || '';
+                row.insertCell().textContent = `R$ ${Number(course.value).toFixed(2)}`;
                 const actionsCell = row.insertCell();
+
                 const editBtn = document.createElement('button');
                 editBtn.textContent = 'Editar';
-                editBtn.classList.add('action-buttons');
+                editBtn.className = 'action-buttons';
                 editBtn.addEventListener('click', () => editCourse(course));
                 actionsCell.appendChild(editBtn);
+
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Excluir';
-                deleteBtn.classList.add('action-buttons', 'delete');
+                deleteBtn.className = 'action-buttons delete';
                 deleteBtn.addEventListener('click', () => deleteCourse(course.id));
                 actionsCell.appendChild(deleteBtn);
             });
@@ -1008,22 +1016,22 @@
         }
 
         function editCourse(course) {
-            currentEditId = course.id;
-            courseNameInput.value = course.name;
-            courseValueInput.value = course.value;
+            courseEditId = course.id;
+            courseNameInput.value = course.name || '';
+            courseValueInput.value = course.value || '';
+            showSection('courses');
         }
 
         async function deleteCourse(id) {
             if (confirm('Tem certeza que deseja excluir este curso?')) {
                 const result = await deleteData(`/courses/${id}`);
                 if (result) {
-                    loadCourses();
-                    loadCoursesForSaleForm();
+                    await loadCourses();
+                    await loadCoursesForSaleForm();
                 }
             }
         }
 
-        // --- Vendas --- //
         const saleContractInput = document.getElementById('sale-contract');
         const saleClientSelect = document.getElementById('sale-client');
         const saleSellerSelect = document.getElementById('sale-seller');
@@ -1035,26 +1043,24 @@
         const salesTableBody = document.getElementById('sales-table-body');
 
         saveSaleBtn.addEventListener('click', async () => {
-            const contract = saleContractInput.value;
-            const client_id = saleClientSelect.value;
-            const seller_id = saleSellerSelect.value;
-            const course_id = saleCourseSelect.value;
+            const contract = saleContractInput.value.trim();
+            const client_id = parseInt(saleClientSelect.value);
+            const seller_id = parseInt(saleSellerSelect.value);
+            const course_id = parseInt(saleCourseSelect.value);
             const value = parseFloat(saleValueInput.value);
-            const gift = parseFloat(saleGiftInput.value);
+            const gift = saleGiftInput.value === '' ? 0 : parseFloat(saleGiftInput.value);
             const date = saleDateInput.value;
 
-            if (!contract || !client_id || !seller_id || !course_id || isNaN(value) || !date) {
+            if (!contract || Number.isNaN(client_id) || Number.isNaN(seller_id) || Number.isNaN(course_id) || isNaN(value) || !date) {
                 alert('Todos os campos são obrigatórios para registrar uma venda.');
                 return;
             }
 
-            const data = { contract, client_id: parseInt(client_id), seller_id: parseInt(seller_id), course_id: parseInt(course_id), value, gift, date };
-            let result;
-            if (currentEditId) {
-                result = await postData(`/sales/${currentEditId}`, data);
-            } else {
-                result = await postData('/sales', data);
-            }
+            const data = { contract, client_id, seller_id, course_id, value, gift, date };
+            const endpoint = saleEditId ? `/sales/${saleEditId}` : '/sales';
+            const method = saleEditId ? 'PUT' : 'POST';
+
+            const result = await sendData(endpoint, data, method);
 
             if (result) {
                 saleContractInput.value = '';
@@ -1064,9 +1070,9 @@
                 saleValueInput.value = '';
                 saleGiftInput.value = '0';
                 saleDateInput.value = '';
-                currentEditId = null;
-                loadSales();
-                loadSalesForCancellationForm();
+                saleEditId = null;
+                await loadSales();
+                await loadSalesForCancellationForm();
             }
         });
 
@@ -1106,55 +1112,54 @@
         async function loadSales() {
             const sales = await fetchData('/sales');
             salesTableBody.innerHTML = '';
-            for (const sale of sales) {
+            sales.forEach(sale => {
                 const row = salesTableBody.insertRow();
-                row.insertCell().textContent = sale.contract;
-                const client = await fetchData(`/clients/${sale.client_id}`);
-                row.insertCell().textContent = client ? client.name : 'N/A';
-                const seller = await fetchData(`/sellers/${sale.seller_id}`);
-                row.insertCell().textContent = seller ? seller.name : 'N/A';
-                const course = await fetchData(`/courses/${sale.course_id}`);
-                row.insertCell().textContent = course ? course.name : 'N/A';
-                row.insertCell().textContent = `R$ ${sale.value.toFixed(2)}`;
-                row.insertCell().textContent = `R$ ${sale.gift.toFixed(2)}`;
-                row.insertCell().textContent = sale.date;
+                row.insertCell().textContent = sale.contract || '';
+                row.insertCell().textContent = sale.client_name || 'N/A';
+                row.insertCell().textContent = sale.seller_name || 'N/A';
+                row.insertCell().textContent = sale.course_name || 'N/A';
+                row.insertCell().textContent = `R$ ${Number(sale.value).toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${Number(sale.gift).toFixed(2)}`;
+                row.insertCell().textContent = sale.date || '';
                 const actionsCell = row.insertCell();
+
                 const editBtn = document.createElement('button');
                 editBtn.textContent = 'Editar';
-                editBtn.classList.add('action-buttons');
+                editBtn.className = 'action-buttons';
                 editBtn.addEventListener('click', () => editSale(sale));
                 actionsCell.appendChild(editBtn);
+
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Excluir';
-                deleteBtn.classList.add('action-buttons', 'delete');
+                deleteBtn.className = 'action-buttons delete';
                 deleteBtn.addEventListener('click', () => deleteSale(sale.id));
                 actionsCell.appendChild(deleteBtn);
-            }
+            });
             document.getElementById('sale-count').textContent = sales.length;
         }
 
         function editSale(sale) {
-            currentEditId = sale.id;
-            saleContractInput.value = sale.contract;
-            saleClientSelect.value = sale.client_id;
-            saleSellerSelect.value = sale.seller_id;
-            saleCourseSelect.value = sale.course_id;
-            saleValueInput.value = sale.value;
-            saleGiftInput.value = sale.gift;
-            saleDateInput.value = sale.date;
+            saleEditId = sale.id;
+            saleContractInput.value = sale.contract || '';
+            saleClientSelect.value = sale.client_id || '';
+            saleSellerSelect.value = sale.seller_id || '';
+            saleCourseSelect.value = sale.course_id || '';
+            saleValueInput.value = sale.value || '';
+            saleGiftInput.value = sale.gift || 0;
+            saleDateInput.value = sale.date || '';
+            showSection('sales');
         }
 
         async function deleteSale(id) {
             if (confirm('Tem certeza que deseja excluir esta venda?')) {
                 const result = await deleteData(`/sales/${id}`);
                 if (result) {
-                    loadSales();
-                    loadSalesForCancellationForm();
+                    await loadSales();
+                    await loadSalesForCancellationForm();
                 }
             }
         }
 
-        // --- Cancelamentos --- //
         const cancellationContractSelect = document.getElementById('cancellation-contract');
         const cancellationReasonInput = document.getElementById('cancellation-reason');
         const cancellationDateInput = document.getElementById('cancellation-date');
@@ -1163,32 +1168,30 @@
         const cancellationsTableBody = document.getElementById('cancellations-table-body');
 
         saveCancellationBtn.addEventListener('click', async () => {
-            const sale_id = cancellationContractSelect.value;
-            const reason = cancellationReasonInput.value;
+            const sale_id = parseInt(cancellationContractSelect.value);
+            const reason = cancellationReasonInput.value.trim();
             const cancellation_date = cancellationDateInput.value;
-            const chargeback_date = cancellationChargebackDateInput.value;
+            const chargeback_date = cancellationChargebackDateInput.value || null;
 
-            if (!sale_id || !reason || !cancellation_date) {
+            if (Number.isNaN(sale_id) || !reason || !cancellation_date) {
                 alert('Contrato da Venda, Motivo e Data do Cancelamento são obrigatórios.');
                 return;
             }
 
-            const data = { sale_id: parseInt(sale_id), reason, cancellation_date, chargeback_date };
-            let result;
-            if (currentEditId) {
-                result = await postData(`/cancellations/${currentEditId}`, data);
-            } else {
-                result = await postData('/cancellations', data);
-            }
+            const data = { sale_id, reason, cancellation_date, chargeback_date };
+            const endpoint = cancellationEditId ? `/cancellations/${cancellationEditId}` : '/cancellations';
+            const method = cancellationEditId ? 'PUT' : 'POST';
+
+            const result = await sendData(endpoint, data, method);
 
             if (result) {
                 cancellationContractSelect.value = '';
                 cancellationReasonInput.value = '';
                 cancellationDateInput.value = '';
                 cancellationChargebackDateInput.value = '';
-                currentEditId = null;
-                loadCancellations();
-                loadSales(); // Refresh sales to reflect cancelled status if applicable
+                cancellationEditId = null;
+                await loadCancellations();
+                await loadSales();
             }
         });
 
@@ -1198,7 +1201,7 @@
             sales.forEach(sale => {
                 const option = document.createElement('option');
                 option.value = sale.id;
-                option.textContent = `Contrato: ${sale.contract} - Cliente: ${sale.client_name} - Vendedor: ${sale.seller_name} - Valor: R$ ${sale.value.toFixed(2)}`;
+                option.textContent = `Contrato: ${sale.contract} - Cliente: ${sale.client_name} - Vendedor: ${sale.seller_name} - Valor: R$ ${Number(sale.value).toFixed(2)}`;
                 cancellationContractSelect.appendChild(option);
             });
         }
@@ -1206,48 +1209,44 @@
         async function loadCancellations() {
             const cancellations = await fetchData('/cancellations');
             cancellationsTableBody.innerHTML = '';
-            for (const cancellation of cancellations) {
+            cancellations.forEach(cancellation => {
                 const row = cancellationsTableBody.insertRow();
-                const sale = await fetchData(`/sales/${cancellation.sale_id}`);
-                row.insertCell().textContent = sale ? sale.contract : 'N/A';
-                row.insertCell().textContent = sale && sale.client_name ? sale.client_name : 'N/A';
-                row.insertCell().textContent = sale && sale.seller_name ? sale.seller_name : 'N/A';
-                row.insertCell().textContent = sale ? `R$ ${sale.value.toFixed(2)}` : 'N/A';
-                row.insertCell().textContent = sale ? `R$ ${sale.gift.toFixed(2)}` : 'N/A';
-                row.insertCell().textContent = cancellation.reason;
-                row.insertCell().textContent = cancellation.cancellation_date;
+                row.insertCell().textContent = cancellation.contract || 'N/A';
+                row.insertCell().textContent = cancellation.client_name || 'N/A';
+                row.insertCell().textContent = cancellation.seller_name || 'N/A';
+                row.insertCell().textContent = `R$ ${Number(cancellation.sale_value).toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${Number(cancellation.sale_gift).toFixed(2)}`;
+                row.insertCell().textContent = cancellation.reason || '';
+                row.insertCell().textContent = cancellation.cancellation_date || '';
                 row.insertCell().textContent = cancellation.chargeback_date || 'N/A';
-            }
+            });
             document.getElementById('cancellation-count').textContent = cancellations.length;
         }
 
-        // --- Pesquisa de Vendas --- //
         const searchContractInput = document.getElementById('search-contract');
         const searchSaleBtn = document.getElementById('search-sale-btn');
         const searchResultsTableBody = document.getElementById('search-results-table-body');
 
         searchSaleBtn.addEventListener('click', async () => {
-            const contract = searchContractInput.value;
+            const contract = searchContractInput.value.trim();
             if (!contract) {
                 alert('Por favor, digite o número do contrato para pesquisar.');
                 return;
             }
+
             const sales = await fetchData('/sales');
             const foundSale = sales.find(sale => sale.contract === contract);
 
             searchResultsTableBody.innerHTML = '';
             if (foundSale) {
                 const row = searchResultsTableBody.insertRow();
-                row.insertCell().textContent = foundSale.contract;
-                const client = await fetchData(`/clients/${foundSale.client_id}`);
-                row.insertCell().textContent = client ? client.name : 'N/A';
-                const seller = await fetchData(`/sellers/${foundSale.seller_id}`);
-                row.insertCell().textContent = seller ? seller.name : 'N/A';
-                const course = await fetchData(`/courses/${foundSale.course_id}`);
-                row.insertCell().textContent = course ? course.name : 'N/A';
-                row.insertCell().textContent = `R$ ${foundSale.value.toFixed(2)}`;
-                row.insertCell().textContent = `R$ ${foundSale.gift.toFixed(2)}`;
-                row.insertCell().textContent = foundSale.date;
+                row.insertCell().textContent = foundSale.contract || '';
+                row.insertCell().textContent = foundSale.client_name || 'N/A';
+                row.insertCell().textContent = foundSale.seller_name || 'N/A';
+                row.insertCell().textContent = foundSale.course_name || 'N/A';
+                row.insertCell().textContent = `R$ ${Number(foundSale.value).toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${Number(foundSale.gift).toFixed(2)}`;
+                row.insertCell().textContent = foundSale.date || '';
             } else {
                 const row = searchResultsTableBody.insertRow();
                 const cell = row.insertCell();
@@ -1256,7 +1255,6 @@
             }
         });
 
-        // --- Relatórios --- //
         const reportTypeSelect = document.getElementById('report-type');
         const reportStartDateInput = document.getElementById('report-start-date');
         const reportEndDateInput = document.getElementById('report-end-date');
@@ -1266,38 +1264,36 @@
         const reportsTableBody = document.getElementById('reports-table-body');
 
         generateReportBtn.addEventListener('click', async () => {
-            console.log('Gerando relatório...');
             const reportType = reportTypeSelect.value;
             const startDate = reportStartDateInput.value;
             const endDate = reportEndDateInput.value;
             const supervisorId = reportSupervisorSelect.value;
             const sellerId = reportSellerSelect.value;
 
-            let url = `${API_URL}/reports?type=${reportType}`;
-            if (startDate) url += `&start_date=${startDate}`;
-            if (endDate) url += `&end_date=${endDate}`;
-            if (supervisorId) url += `&supervisor_id=${supervisorId}`;
-            if (sellerId) url += `&seller_id=${sellerId}`;
-
-            console.log('URL do relatório:', url);
+            let url = `${API_URL}/reports?type=${encodeURIComponent(reportType)}`;
+            if (startDate) url += `&start_date=${encodeURIComponent(startDate)}`;
+            if (endDate) url += `&end_date=${encodeURIComponent(endDate)}`;
+            if (supervisorId) url += `&supervisor_id=${encodeURIComponent(supervisorId)}`;
+            if (sellerId) url += `&seller_id=${encodeURIComponent(sellerId)}`;
 
             try {
                 const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
                 const reportData = await response.json();
-                console.log('Dados do relatório recebidos:', reportData);
+
+                if (!response.ok) {
+                    throw new Error(reportData.error || reportData.message || `HTTP ${response.status}`);
+                }
+
                 renderReport(reportData);
             } catch (error) {
                 console.error('Erro ao gerar relatório:', error);
-                alert('Erro ao gerar relatório. Verifique o console para mais detalhes.');
+                alert(`Erro ao gerar relatório: ${error.message}`);
             }
         });
 
         function renderReport(reportData) {
             reportsTableBody.innerHTML = '';
-            if (reportData.length === 0) {
+            if (!reportData.length) {
                 const row = reportsTableBody.insertRow();
                 const cell = row.insertCell();
                 cell.colSpan = 10;
@@ -1311,12 +1307,12 @@
                 row.insertCell().textContent = item.type;
                 row.insertCell().textContent = item.sales_count;
                 row.insertCell().textContent = item.cancellations_count;
-                row.insertCell().textContent = `R$ ${item.gross_production.toFixed(2)}`;
-                row.insertCell().textContent = `R$ ${item.net_production.toFixed(2)}`;
-                row.insertCell().textContent = item.contracts.join(', ');
-                row.insertCell().textContent = `R$ ${item.commission_to_receive.toFixed(2)}`;
-                row.insertCell().textContent = `R$ ${item.chargeback_to_make.toFixed(2)}`;
-                row.insertCell().textContent = `R$ ${item.net_value.toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${Number(item.gross_production).toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${Number(item.net_production).toFixed(2)}`;
+                row.insertCell().textContent = Array.isArray(item.contracts) ? item.contracts.join(', ') : '';
+                row.insertCell().textContent = `R$ ${Number(item.commission_to_receive).toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${Number(item.chargeback_to_make).toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${Number(item.net_value).toFixed(2)}`;
             });
         }
 
@@ -1342,7 +1338,6 @@
             });
         }
 
-        // --- Backup e Restauração --- //
         const exportDataBtn = document.getElementById('export-data-btn');
         const importFile = document.getElementById('import-file');
         const importDataBtn = document.getElementById('import-data-btn');
@@ -1362,7 +1357,7 @@
                 alert('Backup exportado com sucesso!');
             } catch (error) {
                 console.error('Erro ao exportar dados:', error);
-                alert('Erro ao exportar dados. Verifique o console para mais detalhes.');
+                alert(`Erro ao exportar dados: ${error.message}`);
             }
         });
 
@@ -1377,12 +1372,12 @@
             reader.onload = async (e) => {
                 try {
                     const data = JSON.parse(e.target.result);
-                    const result = await postData('/restore', data);
+                    const result = await sendData('/restore', data, 'POST');
                     if (result && result.message === 'Dados restaurados com sucesso') {
                         alert('Dados restaurados com sucesso! O sistema será recarregado.');
-                        loadAllData(); // Recarrega todos os dados após a restauração
+                        await loadAllData();
                     } else {
-                        alert('Erro ao restaurar dados. Verifique o console para mais detalhes.');
+                        alert('Erro ao restaurar dados.');
                     }
                 } catch (error) {
                     console.error('Erro ao ler ou parsear o arquivo JSON:', error);
@@ -1392,7 +1387,6 @@
             reader.readAsText(file);
         });
 
-        // --- Carregar todos os dados ao iniciar --- //
         async function loadAllData() {
             await loadSupervisors();
             await loadSellers();
@@ -1409,7 +1403,6 @@
             await loadSellersForReportFilter();
         }
 
-        // --- Modal para Novo Cliente ---
         const newClientBtn = document.getElementById('new-client-btn');
         const newClientModal = document.getElementById('new-client-modal');
         const cancelNewClientBtn = document.getElementById('cancel-new-client-btn');
@@ -1432,10 +1425,10 @@
         });
 
         saveNewClientBtn.addEventListener('click', async () => {
-            const name = newClientNameInput.value;
-            const cpf = newClientCpfInput.value;
-            const email = newClientEmailInput.value;
-            const phone = newClientPhoneInput.value;
+            const name = newClientNameInput.value.trim();
+            const cpf = newClientCpfInput.value.trim();
+            const email = newClientEmailInput.value.trim();
+            const phone = newClientPhoneInput.value.trim();
 
             if (!name) {
                 alert('O nome do cliente é obrigatório.');
@@ -1443,7 +1436,7 @@
             }
 
             const data = { name, cpf, email, phone };
-            const result = await postData('/clients', data);
+            const result = await sendData('/clients', data, 'POST');
 
             if (result) {
                 newClientModal.style.display = 'none';
@@ -1451,27 +1444,20 @@
                 newClientCpfInput.value = '';
                 newClientEmailInput.value = '';
                 newClientPhoneInput.value = '';
+                await loadClients();
                 await loadClientsForSaleForm();
-                // Seleciona o novo cliente automaticamente
-                const clients = await fetchData('/clients');
-                const newClient = clients[clients.length - 1];
-                if (newClient) {
-                    saleClientSelect.value = newClient.id;
+
+                if (result.data && result.data.id) {
+                    saleClientSelect.value = result.data.id;
                 }
             }
         });
 
-        // Sincronização automática a cada 30 segundos
-        setInterval(loadAllData, 30000);
-
-        // Inicializa o sistema se já estiver logado (para persistência de sessão simples)
-        // Nota: Em um ambiente de produção, a persistência de sessão deve ser mais robusta (ex: tokens JWT)
-        window.onload = () => {
-            // Simplesmente mostra a tela de login. O login real é feito via botão.
-            // Se houvesse um token de sessão, ele seria verificado aqui.
-        };
+        setInterval(() => {
+            if (!mainView.classList.contains('hidden')) {
+                loadAllData();
+            }
+        }, 30000);
     </script>
 </body>
 </html>
-
-
