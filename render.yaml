@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: ensinabook-api
+    name: ensinabook-registros
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
@@ -12,9 +12,12 @@ services:
           property: connectionString
       - key: ACCESS_PASSWORD
         sync: false
+      - key: PYTHON_VERSION
+        value: 3.12.7
 
 databases:
   - name: ensinabook-db
     plan: free
     databaseName: ensinabook
     user: ensinabook
+
