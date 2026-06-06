@@ -190,14 +190,18 @@ def health_check():
     return jsonify({"status": "ok", "database": result["ok"]})
 
 
-@app.route("/login", methods=["POST"])
+@app.route('/login', methods=['POST'])
 def login():
     data = request.get_json(silent=True) or {}
-    password = (data.get("password") or request.form.get("password") or "").strip()
-    if not password:
-        return jsonify({"message": "Senha não enviada"}), 400
-    if password == ACCESS_PASSWORD:
+    password = data.get('password') or request.form.get('password') or ''
+
+    print("JSON:", data)
+    print("FORM:", request.form)
+    print("PASSWORD RECEBIDA:", repr(password))
+
+    if password.strip() == ACCESS_PASSWORD:
         return jsonify({"message": "Login bem-sucedido"}), 200
+
     return jsonify({"message": "Senha incorreta"}), 401
 
 
