@@ -7,8 +7,8 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
-import psycopg2
-import psycopg2.extras
+import psycopg
+from psycopg.rows import dict_row
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
@@ -39,7 +39,7 @@ def require_database_url() -> str:
 
 @contextmanager
 def get_db_connection():
-    conn = psycopg2.connect(require_database_url())
+    conn = psycopg.connect(require_database_url())
     try:
         yield conn
     finally:
@@ -49,7 +49,7 @@ def get_db_connection():
 @contextmanager
 def get_cursor(commit: bool = False):
     with get_db_connection() as conn:
-        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor = conn.cursor(row_factory=dict_row)
         try:
             yield conn, cursor
             if commit:
