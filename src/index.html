@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Financeiro Ensinabook</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2, h3 {
+            color: #0056b3;
+        }
+
+        .navbar {
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .navbar button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .navbar button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-section, .table-section {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .form-section label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-section input[type="text"],
+        .form-section input[type="number"],
+        .form-section input[type="email"],
+        .form-section input[type="tel"],
+        .form-section input[type="date"],
+        .form-section select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-section button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-section button:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .action-buttons button {
+            background-color: #ffc107;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .action-buttons button:hover {
+            background-color: #e0a800;
+        }
+
+        .action-buttons button.delete {
+            background-color: #dc3545;
+        }
+
+        .action-buttons button.delete:hover {
+            background-color: #c82333;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .login-container {
+            width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .login-container input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .login-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-view" class="login-container">
+        <h2>Acessar Sistema</h2>
+        <input type="password" id="password-input" placeholder="Digite a senha">
+        <button id="login-button">Acessar Sistema</button>
+        <p id="login-error" class="error-message hidden">Senha incorreta.</p>
+    </div>
+
+    <div id="main-view" class="container hidden">
+        <div class="navbar">
+            <button id="dashboard-btn">Início</button>
+            <button id="supervisors-btn">Supervisores</button>
+            <button id="sellers-btn">Vendedores</button>
+            <button id="clients-btn">Clientes</button>
+            <button id="courses-btn">Cursos</button>
+            <button id="sales-btn">Vendas</button>
+            <button id="cancellations-btn">Cancelamentos</button>
+            <button id="search-btn">Pesquisar</button>
+            <button id="reports-btn">Relatórios</button>
+            <button id="backup-btn">Backup</button>
+            <button id="logout-btn">Sair</button>
+        </div>
+
+        <div id="dashboard-section" class="content-section">
+            <h1>Dashboard</h1>
+            <div class="dashboard-stats">
+                <div class="stat-box">
+                    <h3>Supervisores</h3>
+                    <p><span id="supervisor-count">0</span> cadastrados</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Vendedores</h3>
+                    <p><span id="seller-count">0</span> cadastrados</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Clientes</h3>
+                    <p><span id="client-count">0</span> cadastrados</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Cursos</h3>
+                    <p><span id="course-count">0</span> cadastrados</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Vendas</h3>
+                    <p><span id="sale-count">0</span> registradas</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Cancelamentos</h3>
+                    <p><span id="cancellation-count">0</span> registrados</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="supervisors-section" class="content-section hidden">
+            <h1>Supervisores</h1>
+            <div class="form-section">
+                <h2>Adicionar/Editar Supervisor</h2>
+                <input type="hidden" id="supervisor-id">
+                <label for="supervisor-name">Nome:</label>
+                <input type="text" id="supervisor-name">
+                <label for="supervisor-commission">Comissão (%):</label>
+                <input type="number" id="supervisor-commission" step="0.01">
+                <label for="supervisor-contact">Contato:</label>
+                <input type="text" id="supervisor-contact">
+                <button id="save-supervisor-btn">Salvar Supervisor</button>
+            </div>
+            <div class="table-section">
+                <h2>Lista de Supervisores</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Comissão</th>
+                            <th>Contato</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="supervisors-table-body">
+                        <!-- Supervisores serão carregados aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="sellers-section" class="content-section hidden">
+            <h1>Vendedores</h1>
+            <div class="form-section">
+                <h2>Adicionar/Editar Vendedor</h2>
+                <input type="hidden" id="seller-id">
+                <label for="seller-name">Nome:</label>
+                <input type="text" id="seller-name">
+                <label for="seller-supervisor">Supervisor:</label>
+                <select id="seller-supervisor">
+                    <!-- Supervisores serão carregados aqui -->
+                </select>
+                <label for="seller-commission">Comissão (%):</label>
+                <input type="number" id="seller-commission" step="0.01">
+                <label for="seller-contact">Contato:</label>
+                <input type="text" id="seller-contact">
+                <button id="save-seller-btn">Salvar Vendedor</button>
+            </div>
+            <div class="table-section">
+                <h2>Lista de Vendedores</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Supervisor</th>
+                            <th>Comissão</th>
+                            <th>Contato</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sellers-table-body">
+                        <!-- Vendedores serão carregados aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="clients-section" class="content-section hidden">
+            <h1>Clientes</h1>
+            <div class="form-section">
+                <h2>Adicionar/Editar Cliente</h2>
+                <input type="hidden" id="client-id">
+                <label for="client-name">Nome:</label>
+                <input type="text" id="client-name">
+                <label for="client-cpf">CPF:</label>
+                <input type="text" id="client-cpf">
+                <label for="client-email">Email:</label>
+                <input type="email" id="client-email">
+                <label for="client-phone">Telefone:</label>
+                <input type="tel" id="client-phone">
+                <button id="save-client-btn">Salvar Cliente</button>
+            </div>
+            <div class="table-section">
+                <h2>Lista de Clientes</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-table-body">
+                        <!-- Clientes serão carregados aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="courses-section" class="content-section hidden">
+            <h1>Cursos</h1>
+            <div class="form-section">
+                <h2>Adicionar/Editar Curso</h2>
+                <input type="hidden" id="course-id">
+                <label for="course-name">Nome do Curso:</label>
+                <input type="text" id="course-name">
+                <label for="course-value">Valor:</label>
+                <input type="number" id="course-value" step="0.01">
+                <button id="save-course-btn">Salvar Curso</button>
+            </div>
+            <div class="table-section">
+                <h2>Lista de Cursos</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome do Curso</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courses-table-body">
+                        <!-- Cursos serão carregados aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="sales-section" class="content-section hidden">
+            <h1>Vendas</h1>
+            <div class="form-section">
+                <h2>Registrar Venda</h2>
+                <input type="hidden" id="sale-id">
+                <label for="sale-contract">Contrato:</label>
+                <input type="text" id="sale-contract">
+                <label for="sale-client">Cliente:</label>
+                <div style="display: flex; gap: 10px;">
+                    <select id="sale-client" style="flex: 1;">
+                        <!-- Clientes serão carregados aqui -->
+                    </select>
+                    <button type="button" id="new-client-btn" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-size: 14px; white-space: nowrap;">+ Novo Cliente</button>
+                </div>
+                <label for="sale-seller">Vendedor:</label>
+                <select id="sale-seller">
+                    <!-- Vendedores serão carregados aqui -->
+                </select>
+                <label for="sale-course">Curso:</label>
+                <select id="sale-course">
+                    <!-- Cursos serão carregados aqui -->
+                </select>
+                <label for="sale-value">Valor:</label>
+                <input type="number" id="sale-value" step="0.01">
+                <label for="sale-gift">Brinde:</label>
+                <input type="number" id="sale-gift" step="0.01" value="0">
+                <label for="sale-date">Data:</label>
+                <input type="date" id="sale-date">
+                <button id="save-sale-btn">Registrar Venda</button>
+            </div>
+            <div class="table-section">
+                <h2>Lista de Vendas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Contrato</th>
+                            <th>Cliente</th>
+                            <th>Vendedor</th>
+                            <th>Curso</th>
+                            <th>Valor</th>
+                            <th>Brinde</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-table-body">
+                        <!-- Vendas serão carregadas aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="cancellations-section" class="content-section hidden">
+            <h1>Cancelamentos</h1>
+            <div class="form-section">
+                <h2>Registrar Cancelamento</h2>
+                <input type="hidden" id="cancellation-id">
+                <label for="cancellation-contract">Contrato da Venda:</label>
+                <select id="cancellation-contract">
+                    <!-- Vendas serão carregadas aqui -->
+                </select>
+                <label for="cancellation-reason">Motivo:</label>
+                <input type="text" id="cancellation-reason">
+                <label for="cancellation-date">Data do Cancelamento:</label>
+                <input type="date" id="cancellation-date">
+                <label for="cancellation-chargeback-date">Data de Cobrança do Estorno:</label>
+                <input type="date" id="cancellation-chargeback-date">
+                <button id="save-cancellation-btn">Registrar Cancelamento</button>
+            </div>
+            <div class="table-section">
+                <h2>Lista de Cancelamentos</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Contrato</th>
+                            <th>Cliente</th>
+                            <th>Vendedor</th>
+                            <th>Valor</th>
+                            <th>Brinde</th>
+                            <th>Motivo</th>
+                            <th>Data Cancelamento</th>
+                            <th>Data Cobrança Estorno</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cancellations-table-body">
+                        <!-- Cancelamentos serão carregados aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="search-section" class="content-section hidden">
+            <h1>Pesquisar Venda por Contrato</h1>
+            <div class="form-section">
+                <label for="search-contract">Contrato:</label>
+                <input type="text" id="search-contract">
+                <button id="search-sale-btn">Pesquisar</button>
+            </div>
+            <div class="table-section">
+                <h2>Resultado da Pesquisa</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Contrato</th>
+                            <th>Cliente</th>
+                            <th>Vendedor</th>
+                            <th>Curso</th>
+                            <th>Valor</th>
+                            <th>Brinde</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody id="search-results-table-body">
+                        <!-- Resultados da pesquisa serão carregados aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="reports-section" class="content-section hidden">
+            <h1>Relatórios de Vendas e Comissões</h1>
+            <div class="form-section">
+                <h2>Filtros do Relatório</h2>
+                <label for="report-type">Tipo de Relatório:</label>
+                <select id="report-type">
+                    <option value="daily">Diário</option>
+                    <option value="weekly">Semanal</option>
+                    <option value="monthly">Mensal</option>
+                    <option value="seller">Por Vendedor</option>
+                    <option value="supervisor">Por Supervisor</option>
+                </select>
+                <label for="report-start-date">Data Início:</label>
+                <input type="date" id="report-start-date">
+                <label for="report-end-date">Data Fim:</label>
+                <input type="date" id="report-end-date">
+                <label for="report-supervisor">Filtrar por Supervisor:</label>
+                <select id="report-supervisor">
+                    <option value="">Todos</option>
+                    <!-- Supervisores serão carregados aqui -->
+                </select>
+                <label for="report-seller">Filtrar por Vendedor:</label>
+                <select id="report-seller">
+                    <option value="">Todos</option>
+                    <!-- Vendedores serão carregados aqui -->
+                </select>
+                <button id="generate-report-btn">Gerar Relatório</button>
+            </div>
+            <div class="table-section">
+                <h2>Resultados do Relatório</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Vendas</th>
+                            <th>Cancelamentos</th>
+                            <th>Produção Bruta</th>
+                            <th>Produção Líquida</th>
+                            <th>Contratos</th>
+                            <th>Comissão a Receber</th>
+                            <th>Estorno a Fazer</th>
+                            <th>Valor Líquido</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reports-table-body">
+                        <!-- Relatórios serão carregados aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="backup-section" class="content-section hidden">
+            <h1>Backup e Restauração</h1>
+            <div class="form-section">
+                <h3>Fazer Backup</h3>
+                <p>Exporte todos os seus dados para um arquivo JSON.</p>
+                <button id="export-data-btn">Exportar Dados</button>
+            </div>
+            <div class="form-section">
+                <h3>Restaurar Backup</h3>
+                <p>Importe dados de um arquivo JSON. Isso substituirá os dados atuais.</p>
+                <input type="file" id="import-file" accept=".json">
+                <button id="import-data-btn">Restaurar Backup</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Modal para Novo Cliente -->
+        <div id="new-client-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000; justify-content: center; align-items: center;">
+            <div style="background-color: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 500px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);">
+                <h2 style="color: #0056b3; margin-top: 0;">Cadastrar Novo Cliente</h2>
+                <label for="new-client-name" style="display: block; margin-bottom: 5px; font-weight: bold;">Nome:</label>
+                <input type="text" id="new-client-name" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+                <label for="new-client-cpf" style="display: block; margin-bottom: 5px; font-weight: bold;">CPF:</label>
+                <input type="text" id="new-client-cpf" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+                <label for="new-client-email" style="display: block; margin-bottom: 5px; font-weight: bold;">Email:</label>
+                <input type="email" id="new-client-email" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+                <label for="new-client-phone" style="display: block; margin-bottom: 5px; font-weight: bold;">Telefone:</label>
+                <input type="tel" id="new-client-phone" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button id="cancel-new-client-btn" style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-size: 14px;">Cancelar</button>
+                    <button id="save-new-client-btn" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-size: 14px;">Salvar Cliente</button>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        const API_URL = 'https://5000-i2wspo75mty3foft8b6p4-3fb180b0.us2.manus.computer'; // Usa a origem atual para a API
+        const passwordInput = document.getElementById('password-input');
+        const loginButton = document.getElementById('login-button');
+        const loginError = document.getElementById('login-error');
+        const loginView = document.getElementById('login-view');
+        const mainView = document.getElementById('main-view');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        const sections = {
+            'dashboard': document.getElementById('dashboard-section'),
+            'supervisors': document.getElementById('supervisors-section'),
+            'sellers': document.getElementById('sellers-section'),
+            'clients': document.getElementById('clients-section'),
+            'courses': document.getElementById('courses-section'),
+            'sales': document.getElementById('sales-section'),
+            'cancellations': document.getElementById('cancellations-section'),
+            'search': document.getElementById('search-section'),
+            'reports': document.getElementById('reports-section'),
+            'backup': document.getElementById('backup-section')
+        };
+
+        const navButtons = {
+            'dashboard': document.getElementById('dashboard-btn'),
+            'supervisors': document.getElementById('supervisors-btn'),
+            'sellers': document.getElementById('sellers-btn'),
+            'clients': document.getElementById('clients-btn'),
+            'courses': document.getElementById('courses-btn'),
+            'sales': document.getElementById('sales-btn'),
+            'cancellations': document.getElementById('cancellations-btn'),
+            'search': document.getElementById('search-btn'),
+            'reports': document.getElementById('reports-btn'),
+            'backup': document.getElementById('backup-btn')
+        };
+
+        let currentEditId = null;
+
+        // --- Autenticação --- //
+        loginButton.addEventListener('click', async () => {
+            const password = passwordInput.value;
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password: password })
+                });
+
+                if (response.ok) {
+                    loginView.classList.add('hidden');
+                    mainView.classList.remove('hidden');
+                    showSection('dashboard');
+                    loadAllData();
+                } else {
+                    loginError.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Erro ao fazer login:', error);
+                loginError.classList.remove('hidden');
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            loginView.classList.remove('hidden');
+            mainView.classList.add('hidden');
+            passwordInput.value = '';
+            loginError.classList.add('hidden');
+        });
+
+        // --- Navegação --- //
+        function showSection(sectionId) {
+            for (let id in sections) {
+                sections[id].classList.add('hidden');
+            }
+            sections[sectionId].classList.remove('hidden');
+            if (sectionId === 'reports') {
+                loadSupervisorsForReportFilter();
+                loadSellersForReportFilter();
+            }
+            if (sectionId === 'sales') {
+                loadClientsForSaleForm();
+                loadSellersForSaleForm();
+                loadCoursesForSaleForm();
+            }
+            if (sectionId === 'cancellations') {
+                loadSalesForCancellationForm();
+            }
+        }
+
+        for (let id in navButtons) {
+            navButtons[id].addEventListener('click', () => showSection(id));
+        }
+
+        // --- Funções Genéricas de API --- //
+        async function fetchData(endpoint) {
+            try {
+                const response = await fetch(`${API_URL}${endpoint}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error(`Erro ao carregar dados de ${endpoint}:`, error);
+                return [];
+            }
+        }
+
+        async function postData(endpoint, data) {
+            try {
+                const response = await fetch(`${API_URL}${endpoint}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error(`Erro ao salvar dados em ${endpoint}:`, error);
+                alert('Erro ao salvar dados. Verifique o console para mais detalhes.');
+                return null;
+            }
+        }
+
+        async function deleteData(endpoint) {
+            try {
+                const response = await fetch(`${API_URL}${endpoint}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error(`Erro ao deletar dados de ${endpoint}:`, error);
+                alert('Erro ao deletar dados. Verifique o console para mais detalhes.');
+                return null;
+            }
+        }
+
+        // --- Supervisores --- //
+        const supervisorNameInput = document.getElementById('supervisor-name');
+        const supervisorCommissionInput = document.getElementById('supervisor-commission');
+        const supervisorContactInput = document.getElementById('supervisor-contact');
+        const saveSupervisorBtn = document.getElementById('save-supervisor-btn');
+        const supervisorsTableBody = document.getElementById('supervisors-table-body');
+
+        saveSupervisorBtn.addEventListener('click', async () => {
+            const name = supervisorNameInput.value;
+            const commission = parseFloat(supervisorCommissionInput.value);
+            const contact = supervisorContactInput.value;
+
+            if (!name || isNaN(commission)) {
+                alert('Nome e Comissão são obrigatórios.');
+                return;
+            }
+
+            const data = { name, commission, contact };
+            let result;
+            if (currentEditId) {
+                result = await postData(`/supervisors/${currentEditId}`, data);
+            } else {
+                result = await postData('/supervisors', data);
+            }
+
+            if (result) {
+                supervisorNameInput.value = '';
+                supervisorCommissionInput.value = '';
+                supervisorContactInput.value = '';
+                currentEditId = null;
+                loadSupervisors();
+                loadSupervisorsForReportFilter();
+            }
+        });
+
+        async function loadSupervisors() {
+            const supervisors = await fetchData('/supervisors');
+            supervisorsTableBody.innerHTML = '';
+            supervisors.forEach(supervisor => {
+                const row = supervisorsTableBody.insertRow();
+                row.insertCell().textContent = supervisor.name;
+                row.insertCell().textContent = `${supervisor.commission.toFixed(2)}%`;
+                row.insertCell().textContent = supervisor.contact;
+                const actionsCell = row.insertCell();
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Editar';
+                editBtn.classList.add('action-buttons');
+                editBtn.addEventListener('click', () => editSupervisor(supervisor));
+                actionsCell.appendChild(editBtn);
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Excluir';
+                deleteBtn.classList.add('action-buttons', 'delete');
+                deleteBtn.addEventListener('click', () => deleteSupervisor(supervisor.id));
+                actionsCell.appendChild(deleteBtn);
+            });
+            document.getElementById('supervisor-count').textContent = supervisors.length;
+        }
+
+        function editSupervisor(supervisor) {
+            currentEditId = supervisor.id;
+            supervisorNameInput.value = supervisor.name;
+            supervisorCommissionInput.value = supervisor.commission;
+            supervisorContactInput.value = supervisor.contact;
+        }
+
+        async function deleteSupervisor(id) {
+            if (confirm('Tem certeza que deseja excluir este supervisor?')) {
+                const result = await deleteData(`/supervisors/${id}`);
+                if (result) {
+                    loadSupervisors();
+                    loadSupervisorsForReportFilter();
+                }
+            }
+        }
+
+        // --- Vendedores --- //
+        const sellerNameInput = document.getElementById('seller-name');
+        const sellerSupervisorSelect = document.getElementById('seller-supervisor');
+        const sellerCommissionInput = document.getElementById('seller-commission');
+        const sellerContactInput = document.getElementById('seller-contact');
+        const saveSellerBtn = document.getElementById('save-seller-btn');
+        const sellersTableBody = document.getElementById('sellers-table-body');
+
+        saveSellerBtn.addEventListener('click', async () => {
+            const name = sellerNameInput.value;
+            const supervisor_id = sellerSupervisorSelect.value;
+            const commission = parseFloat(sellerCommissionInput.value);
+            const contact = sellerContactInput.value;
+
+            if (!name || !supervisor_id || isNaN(commission)) {
+                alert('Nome, Supervisor e Comissão são obrigatórios.');
+                return;
+            }
+
+            const data = { name, supervisor_id: parseInt(supervisor_id), commission, contact };
+            let result;
+            if (currentEditId) {
+                result = await postData(`/sellers/${currentEditId}`, data);
+            } else {
+                result = await postData('/sellers', data);
+            }
+
+            if (result) {
+                sellerNameInput.value = '';
+                sellerSupervisorSelect.value = '';
+                sellerCommissionInput.value = '';
+                sellerContactInput.value = '';
+                currentEditId = null;
+                loadSellers();
+                loadSellersForReportFilter();
+            }
+        });
+
+        async function loadSupervisorsForSellerForm() {
+            const supervisors = await fetchData('/supervisors');
+            sellerSupervisorSelect.innerHTML = '<option value="">Selecione um Supervisor</option>';
+            supervisors.forEach(supervisor => {
+                const option = document.createElement('option');
+                option.value = supervisor.id;
+                option.textContent = supervisor.name;
+                sellerSupervisorSelect.appendChild(option);
+            });
+        }
+
+        async function loadSellers() {
+            const sellers = await fetchData('/sellers');
+            sellersTableBody.innerHTML = '';
+            for (const seller of sellers) {
+                const row = sellersTableBody.insertRow();
+                row.insertCell().textContent = seller.name;
+                const supervisor = await fetchData(`/supervisors/${seller.supervisor_id}`);
+                row.insertCell().textContent = supervisor ? supervisor.name : 'N/A';
+                row.insertCell().textContent = `${seller.commission.toFixed(2)}%`;
+                row.insertCell().textContent = seller.contact;
+                const actionsCell = row.insertCell();
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Editar';
+                editBtn.classList.add('action-buttons');
+                editBtn.addEventListener('click', () => editSeller(seller));
+                actionsCell.appendChild(editBtn);
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Excluir';
+                deleteBtn.classList.add('action-buttons', 'delete');
+                deleteBtn.addEventListener('click', () => deleteSeller(seller.id));
+                actionsCell.appendChild(deleteBtn);
+            }
+            document.getElementById('seller-count').textContent = sellers.length;
+        }
+
+        function editSeller(seller) {
+            currentEditId = seller.id;
+            sellerNameInput.value = seller.name;
+            sellerSupervisorSelect.value = seller.supervisor_id;
+            sellerCommissionInput.value = seller.commission;
+            sellerContactInput.value = seller.contact;
+        }
+
+        async function deleteSeller(id) {
+            if (confirm('Tem certeza que deseja excluir este vendedor?')) {
+                const result = await deleteData(`/sellers/${id}`);
+                if (result) {
+                    loadSellers();
+                    loadSellersForReportFilter();
+                }
+            }
+        }
+
+        // --- Clientes --- //
+        const clientNameInput = document.getElementById('client-name');
+        const clientCpfInput = document.getElementById('client-cpf');
+        const clientEmailInput = document.getElementById('client-email');
+        const clientPhoneInput = document.getElementById('client-phone');
+        const saveClientBtn = document.getElementById('save-client-btn');
+        const clientsTableBody = document.getElementById('clients-table-body');
+
+        saveClientBtn.addEventListener('click', async () => {
+            const name = clientNameInput.value;
+            const cpf = clientCpfInput.value;
+            const email = clientEmailInput.value;
+            const phone = clientPhoneInput.value;
+
+            if (!name) {
+                alert('Nome do Cliente é obrigatório.');
+                return;
+            }
+
+            const data = { name, cpf, email, phone };
+            let result;
+            if (currentEditId) {
+                result = await postData(`/clients/${currentEditId}`, data);
+            } else {
+                result = await postData('/clients', data);
+            }
+
+            if (result) {
+                clientNameInput.value = '';
+                clientCpfInput.value = '';
+                clientEmailInput.value = '';
+                clientPhoneInput.value = '';
+                currentEditId = null;
+                loadClients();
+                loadClientsForSaleForm();
+            }
+        });
+
+        async function loadClients() {
+            const clients = await fetchData('/clients');
+            clientsTableBody.innerHTML = '';
+            clients.forEach(client => {
+                const row = clientsTableBody.insertRow();
+                row.insertCell().textContent = client.name;
+                row.insertCell().textContent = client.cpf;
+                row.insertCell().textContent = client.email;
+                row.insertCell().textContent = client.phone;
+                const actionsCell = row.insertCell();
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Editar';
+                editBtn.classList.add('action-buttons');
+                editBtn.addEventListener('click', () => editClient(client));
+                actionsCell.appendChild(editBtn);
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Excluir';
+                deleteBtn.classList.add('action-buttons', 'delete');
+                deleteBtn.addEventListener('click', () => deleteClient(client.id));
+                actionsCell.appendChild(deleteBtn);
+            });
+            document.getElementById('client-count').textContent = clients.length;
+        }
+
+        function editClient(client) {
+            currentEditId = client.id;
+            clientNameInput.value = client.name;
+            clientCpfInput.value = client.cpf;
+            clientEmailInput.value = client.email;
+            clientPhoneInput.value = client.phone;
+        }
+
+        async function deleteClient(id) {
+            if (confirm('Tem certeza que deseja excluir este cliente?')) {
+                const result = await deleteData(`/clients/${id}`);
+                if (result) {
+                    loadClients();
+                    loadClientsForSaleForm();
+                }
+            }
+        }
+
+        // --- Cursos --- //
+        const courseNameInput = document.getElementById('course-name');
+        const courseValueInput = document.getElementById('course-value');
+        const saveCourseBtn = document.getElementById('save-course-btn');
+        const coursesTableBody = document.getElementById('courses-table-body');
+
+        saveCourseBtn.addEventListener('click', async () => {
+            const name = courseNameInput.value;
+            const value = parseFloat(courseValueInput.value);
+
+            if (!name || isNaN(value)) {
+                alert('Nome do Curso e Valor são obrigatórios.');
+                return;
+            }
+
+            const data = { name, value };
+            let result;
+            if (currentEditId) {
+                result = await postData(`/courses/${currentEditId}`, data);
+            } else {
+                result = await postData('/courses', data);
+            }
+
+            if (result) {
+                courseNameInput.value = '';
+                courseValueInput.value = '';
+                currentEditId = null;
+                loadCourses();
+                loadCoursesForSaleForm();
+            }
+        });
+
+        async function loadCourses() {
+            const courses = await fetchData('/courses');
+            coursesTableBody.innerHTML = '';
+            courses.forEach(course => {
+                const row = coursesTableBody.insertRow();
+                row.insertCell().textContent = course.name;
+                row.insertCell().textContent = `R$ ${course.value.toFixed(2)}`;
+                const actionsCell = row.insertCell();
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Editar';
+                editBtn.classList.add('action-buttons');
+                editBtn.addEventListener('click', () => editCourse(course));
+                actionsCell.appendChild(editBtn);
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Excluir';
+                deleteBtn.classList.add('action-buttons', 'delete');
+                deleteBtn.addEventListener('click', () => deleteCourse(course.id));
+                actionsCell.appendChild(deleteBtn);
+            });
+            document.getElementById('course-count').textContent = courses.length;
+        }
+
+        function editCourse(course) {
+            currentEditId = course.id;
+            courseNameInput.value = course.name;
+            courseValueInput.value = course.value;
+        }
+
+        async function deleteCourse(id) {
+            if (confirm('Tem certeza que deseja excluir este curso?')) {
+                const result = await deleteData(`/courses/${id}`);
+                if (result) {
+                    loadCourses();
+                    loadCoursesForSaleForm();
+                }
+            }
+        }
+
+        // --- Vendas --- //
+        const saleContractInput = document.getElementById('sale-contract');
+        const saleClientSelect = document.getElementById('sale-client');
+        const saleSellerSelect = document.getElementById('sale-seller');
+        const saleCourseSelect = document.getElementById('sale-course');
+        const saleValueInput = document.getElementById('sale-value');
+        const saleGiftInput = document.getElementById('sale-gift');
+        const saleDateInput = document.getElementById('sale-date');
+        const saveSaleBtn = document.getElementById('save-sale-btn');
+        const salesTableBody = document.getElementById('sales-table-body');
+
+        saveSaleBtn.addEventListener('click', async () => {
+            const contract = saleContractInput.value;
+            const client_id = saleClientSelect.value;
+            const seller_id = saleSellerSelect.value;
+            const course_id = saleCourseSelect.value;
+            const value = parseFloat(saleValueInput.value);
+            const gift = parseFloat(saleGiftInput.value);
+            const date = saleDateInput.value;
+
+            if (!contract || !client_id || !seller_id || !course_id || isNaN(value) || !date) {
+                alert('Todos os campos são obrigatórios para registrar uma venda.');
+                return;
+            }
+
+            const data = { contract, client_id: parseInt(client_id), seller_id: parseInt(seller_id), course_id: parseInt(course_id), value, gift, date };
+            let result;
+            if (currentEditId) {
+                result = await postData(`/sales/${currentEditId}`, data);
+            } else {
+                result = await postData('/sales', data);
+            }
+
+            if (result) {
+                saleContractInput.value = '';
+                saleClientSelect.value = '';
+                saleSellerSelect.value = '';
+                saleCourseSelect.value = '';
+                saleValueInput.value = '';
+                saleGiftInput.value = '0';
+                saleDateInput.value = '';
+                currentEditId = null;
+                loadSales();
+                loadSalesForCancellationForm();
+            }
+        });
+
+        async function loadClientsForSaleForm() {
+            const clients = await fetchData('/clients');
+            saleClientSelect.innerHTML = '<option value="">Selecione um Cliente</option>';
+            clients.forEach(client => {
+                const option = document.createElement('option');
+                option.value = client.id;
+                option.textContent = client.name;
+                saleClientSelect.appendChild(option);
+            });
+        }
+
+        async function loadSellersForSaleForm() {
+            const sellers = await fetchData('/sellers');
+            saleSellerSelect.innerHTML = '<option value="">Selecione um Vendedor</option>';
+            sellers.forEach(seller => {
+                const option = document.createElement('option');
+                option.value = seller.id;
+                option.textContent = seller.name;
+                saleSellerSelect.appendChild(option);
+            });
+        }
+
+        async function loadCoursesForSaleForm() {
+            const courses = await fetchData('/courses');
+            saleCourseSelect.innerHTML = '<option value="">Selecione um Curso</option>';
+            courses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = course.id;
+                option.textContent = course.name;
+                saleCourseSelect.appendChild(option);
+            });
+        }
+
+        async function loadSales() {
+            const sales = await fetchData('/sales');
+            salesTableBody.innerHTML = '';
+            for (const sale of sales) {
+                const row = salesTableBody.insertRow();
+                row.insertCell().textContent = sale.contract;
+                const client = await fetchData(`/clients/${sale.client_id}`);
+                row.insertCell().textContent = client ? client.name : 'N/A';
+                const seller = await fetchData(`/sellers/${sale.seller_id}`);
+                row.insertCell().textContent = seller ? seller.name : 'N/A';
+                const course = await fetchData(`/courses/${sale.course_id}`);
+                row.insertCell().textContent = course ? course.name : 'N/A';
+                row.insertCell().textContent = `R$ ${sale.value.toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${sale.gift.toFixed(2)}`;
+                row.insertCell().textContent = sale.date;
+                const actionsCell = row.insertCell();
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Editar';
+                editBtn.classList.add('action-buttons');
+                editBtn.addEventListener('click', () => editSale(sale));
+                actionsCell.appendChild(editBtn);
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Excluir';
+                deleteBtn.classList.add('action-buttons', 'delete');
+                deleteBtn.addEventListener('click', () => deleteSale(sale.id));
+                actionsCell.appendChild(deleteBtn);
+            }
+            document.getElementById('sale-count').textContent = sales.length;
+        }
+
+        function editSale(sale) {
+            currentEditId = sale.id;
+            saleContractInput.value = sale.contract;
+            saleClientSelect.value = sale.client_id;
+            saleSellerSelect.value = sale.seller_id;
+            saleCourseSelect.value = sale.course_id;
+            saleValueInput.value = sale.value;
+            saleGiftInput.value = sale.gift;
+            saleDateInput.value = sale.date;
+        }
+
+        async function deleteSale(id) {
+            if (confirm('Tem certeza que deseja excluir esta venda?')) {
+                const result = await deleteData(`/sales/${id}`);
+                if (result) {
+                    loadSales();
+                    loadSalesForCancellationForm();
+                }
+            }
+        }
+
+        // --- Cancelamentos --- //
+        const cancellationContractSelect = document.getElementById('cancellation-contract');
+        const cancellationReasonInput = document.getElementById('cancellation-reason');
+        const cancellationDateInput = document.getElementById('cancellation-date');
+        const cancellationChargebackDateInput = document.getElementById('cancellation-chargeback-date');
+        const saveCancellationBtn = document.getElementById('save-cancellation-btn');
+        const cancellationsTableBody = document.getElementById('cancellations-table-body');
+
+        saveCancellationBtn.addEventListener('click', async () => {
+            const sale_id = cancellationContractSelect.value;
+            const reason = cancellationReasonInput.value;
+            const cancellation_date = cancellationDateInput.value;
+            const chargeback_date = cancellationChargebackDateInput.value;
+
+            if (!sale_id || !reason || !cancellation_date) {
+                alert('Contrato da Venda, Motivo e Data do Cancelamento são obrigatórios.');
+                return;
+            }
+
+            const data = { sale_id: parseInt(sale_id), reason, cancellation_date, chargeback_date };
+            let result;
+            if (currentEditId) {
+                result = await postData(`/cancellations/${currentEditId}`, data);
+            } else {
+                result = await postData('/cancellations', data);
+            }
+
+            if (result) {
+                cancellationContractSelect.value = '';
+                cancellationReasonInput.value = '';
+                cancellationDateInput.value = '';
+                cancellationChargebackDateInput.value = '';
+                currentEditId = null;
+                loadCancellations();
+                loadSales(); // Refresh sales to reflect cancelled status if applicable
+            }
+        });
+
+        async function loadSalesForCancellationForm() {
+            const sales = await fetchData('/sales');
+            cancellationContractSelect.innerHTML = '<option value="">Selecione o Contrato da Venda</option>';
+            sales.forEach(sale => {
+                const option = document.createElement('option');
+                option.value = sale.id;
+                option.textContent = `Contrato: ${sale.contract} - Cliente: ${sale.client_name} - Vendedor: ${sale.seller_name} - Valor: R$ ${sale.value.toFixed(2)}`;
+                cancellationContractSelect.appendChild(option);
+            });
+        }
+
+        async function loadCancellations() {
+            const cancellations = await fetchData('/cancellations');
+            cancellationsTableBody.innerHTML = '';
+            for (const cancellation of cancellations) {
+                const row = cancellationsTableBody.insertRow();
+                const sale = await fetchData(`/sales/${cancellation.sale_id}`);
+                row.insertCell().textContent = sale ? sale.contract : 'N/A';
+                row.insertCell().textContent = sale && sale.client_name ? sale.client_name : 'N/A';
+                row.insertCell().textContent = sale && sale.seller_name ? sale.seller_name : 'N/A';
+                row.insertCell().textContent = sale ? `R$ ${sale.value.toFixed(2)}` : 'N/A';
+                row.insertCell().textContent = sale ? `R$ ${sale.gift.toFixed(2)}` : 'N/A';
+                row.insertCell().textContent = cancellation.reason;
+                row.insertCell().textContent = cancellation.cancellation_date;
+                row.insertCell().textContent = cancellation.chargeback_date || 'N/A';
+            }
+            document.getElementById('cancellation-count').textContent = cancellations.length;
+        }
+
+        // --- Pesquisa de Vendas --- //
+        const searchContractInput = document.getElementById('search-contract');
+        const searchSaleBtn = document.getElementById('search-sale-btn');
+        const searchResultsTableBody = document.getElementById('search-results-table-body');
+
+        searchSaleBtn.addEventListener('click', async () => {
+            const contract = searchContractInput.value;
+            if (!contract) {
+                alert('Por favor, digite o número do contrato para pesquisar.');
+                return;
+            }
+            const sales = await fetchData('/sales');
+            const foundSale = sales.find(sale => sale.contract === contract);
+
+            searchResultsTableBody.innerHTML = '';
+            if (foundSale) {
+                const row = searchResultsTableBody.insertRow();
+                row.insertCell().textContent = foundSale.contract;
+                const client = await fetchData(`/clients/${foundSale.client_id}`);
+                row.insertCell().textContent = client ? client.name : 'N/A';
+                const seller = await fetchData(`/sellers/${foundSale.seller_id}`);
+                row.insertCell().textContent = seller ? seller.name : 'N/A';
+                const course = await fetchData(`/courses/${foundSale.course_id}`);
+                row.insertCell().textContent = course ? course.name : 'N/A';
+                row.insertCell().textContent = `R$ ${foundSale.value.toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${foundSale.gift.toFixed(2)}`;
+                row.insertCell().textContent = foundSale.date;
+            } else {
+                const row = searchResultsTableBody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 7;
+                cell.textContent = 'Nenhuma venda encontrada com este contrato.';
+            }
+        });
+
+        // --- Relatórios --- //
+        const reportTypeSelect = document.getElementById('report-type');
+        const reportStartDateInput = document.getElementById('report-start-date');
+        const reportEndDateInput = document.getElementById('report-end-date');
+        const reportSupervisorSelect = document.getElementById('report-supervisor');
+        const reportSellerSelect = document.getElementById('report-seller');
+        const generateReportBtn = document.getElementById('generate-report-btn');
+        const reportsTableBody = document.getElementById('reports-table-body');
+
+        generateReportBtn.addEventListener('click', async () => {
+            console.log('Gerando relatório...');
+            const reportType = reportTypeSelect.value;
+            const startDate = reportStartDateInput.value;
+            const endDate = reportEndDateInput.value;
+            const supervisorId = reportSupervisorSelect.value;
+            const sellerId = reportSellerSelect.value;
+
+            let url = `${API_URL}/reports?type=${reportType}`;
+            if (startDate) url += `&start_date=${startDate}`;
+            if (endDate) url += `&end_date=${endDate}`;
+            if (supervisorId) url += `&supervisor_id=${supervisorId}`;
+            if (sellerId) url += `&seller_id=${sellerId}`;
+
+            console.log('URL do relatório:', url);
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const reportData = await response.json();
+                console.log('Dados do relatório recebidos:', reportData);
+                renderReport(reportData);
+            } catch (error) {
+                console.error('Erro ao gerar relatório:', error);
+                alert('Erro ao gerar relatório. Verifique o console para mais detalhes.');
+            }
+        });
+
+        function renderReport(reportData) {
+            reportsTableBody.innerHTML = '';
+            if (reportData.length === 0) {
+                const row = reportsTableBody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 10;
+                cell.textContent = 'Nenhum dado encontrado para o período e filtros selecionados.';
+                return;
+            }
+
+            reportData.forEach(item => {
+                const row = reportsTableBody.insertRow();
+                row.insertCell().textContent = item.name;
+                row.insertCell().textContent = item.type;
+                row.insertCell().textContent = item.sales_count;
+                row.insertCell().textContent = item.cancellations_count;
+                row.insertCell().textContent = `R$ ${item.gross_production.toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${item.net_production.toFixed(2)}`;
+                row.insertCell().textContent = item.contracts.join(', ');
+                row.insertCell().textContent = `R$ ${item.commission_to_receive.toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${item.chargeback_to_make.toFixed(2)}`;
+                row.insertCell().textContent = `R$ ${item.net_value.toFixed(2)}`;
+            });
+        }
+
+        async function loadSupervisorsForReportFilter() {
+            const supervisors = await fetchData('/supervisors');
+            reportSupervisorSelect.innerHTML = '<option value="">Todos</option>';
+            supervisors.forEach(supervisor => {
+                const option = document.createElement('option');
+                option.value = supervisor.id;
+                option.textContent = supervisor.name;
+                reportSupervisorSelect.appendChild(option);
+            });
+        }
+
+        async function loadSellersForReportFilter() {
+            const sellers = await fetchData('/sellers');
+            reportSellerSelect.innerHTML = '<option value="">Todos</option>';
+            sellers.forEach(seller => {
+                const option = document.createElement('option');
+                option.value = seller.id;
+                option.textContent = seller.name;
+                reportSellerSelect.appendChild(option);
+            });
+        }
+
+        // --- Backup e Restauração --- //
+        const exportDataBtn = document.getElementById('export-data-btn');
+        const importFile = document.getElementById('import-file');
+        const importDataBtn = document.getElementById('import-data-btn');
+
+        exportDataBtn.addEventListener('click', async () => {
+            try {
+                const data = await fetchData('/backup');
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ensinabook_backup_${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                alert('Backup exportado com sucesso!');
+            } catch (error) {
+                console.error('Erro ao exportar dados:', error);
+                alert('Erro ao exportar dados. Verifique o console para mais detalhes.');
+            }
+        });
+
+        importDataBtn.addEventListener('click', () => {
+            const file = importFile.files[0];
+            if (!file) {
+                alert('Por favor, selecione um arquivo JSON para importar.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    const result = await postData('/restore', data);
+                    if (result && result.message === 'Dados restaurados com sucesso') {
+                        alert('Dados restaurados com sucesso! O sistema será recarregado.');
+                        loadAllData(); // Recarrega todos os dados após a restauração
+                    } else {
+                        alert('Erro ao restaurar dados. Verifique o console para mais detalhes.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao ler ou parsear o arquivo JSON:', error);
+                    alert('Erro ao importar arquivo. Certifique-se de que é um JSON válido.');
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // --- Carregar todos os dados ao iniciar --- //
+        async function loadAllData() {
+            await loadSupervisors();
+            await loadSellers();
+            await loadClients();
+            await loadCourses();
+            await loadSales();
+            await loadCancellations();
+            await loadSupervisorsForSellerForm();
+            await loadClientsForSaleForm();
+            await loadSellersForSaleForm();
+            await loadCoursesForSaleForm();
+            await loadSalesForCancellationForm();
+            await loadSupervisorsForReportFilter();
+            await loadSellersForReportFilter();
+        }
+
+        // --- Modal para Novo Cliente ---
+        const newClientBtn = document.getElementById('new-client-btn');
+        const newClientModal = document.getElementById('new-client-modal');
+        const cancelNewClientBtn = document.getElementById('cancel-new-client-btn');
+        const saveNewClientBtn = document.getElementById('save-new-client-btn');
+        const newClientNameInput = document.getElementById('new-client-name');
+        const newClientCpfInput = document.getElementById('new-client-cpf');
+        const newClientEmailInput = document.getElementById('new-client-email');
+        const newClientPhoneInput = document.getElementById('new-client-phone');
+
+        newClientBtn.addEventListener('click', () => {
+            newClientModal.style.display = 'flex';
+        });
+
+        cancelNewClientBtn.addEventListener('click', () => {
+            newClientModal.style.display = 'none';
+            newClientNameInput.value = '';
+            newClientCpfInput.value = '';
+            newClientEmailInput.value = '';
+            newClientPhoneInput.value = '';
+        });
+
+        saveNewClientBtn.addEventListener('click', async () => {
+            const name = newClientNameInput.value;
+            const cpf = newClientCpfInput.value;
+            const email = newClientEmailInput.value;
+            const phone = newClientPhoneInput.value;
+
+            if (!name) {
+                alert('O nome do cliente é obrigatório.');
+                return;
+            }
+
+            const data = { name, cpf, email, phone };
+            const result = await postData('/clients', data);
+
+            if (result) {
+                newClientModal.style.display = 'none';
+                newClientNameInput.value = '';
+                newClientCpfInput.value = '';
+                newClientEmailInput.value = '';
+                newClientPhoneInput.value = '';
+                await loadClientsForSaleForm();
+                // Seleciona o novo cliente automaticamente
+                const clients = await fetchData('/clients');
+                const newClient = clients[clients.length - 1];
+                if (newClient) {
+                    saleClientSelect.value = newClient.id;
+                }
+            }
+        });
+
+        // Sincronização automática a cada 30 segundos
+        setInterval(loadAllData, 30000);
+
+        // Inicializa o sistema se já estiver logado (para persistência de sessão simples)
+        // Nota: Em um ambiente de produção, a persistência de sessão deve ser mais robusta (ex: tokens JWT)
+        window.onload = () => {
+            // Simplesmente mostra a tela de login. O login real é feito via botão.
+            // Se houvesse um token de sessão, ele seria verificado aqui.
+        };
+    </script>
+</body>
+</html>
+
+
